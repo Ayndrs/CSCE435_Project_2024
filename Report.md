@@ -1,12 +1,12 @@
 # CSCE 435 Group project
 
-## 0. Group number: 
+## 0. Group number: 22
 
 ## 1. Group members:
-1. First
-2. Second
-3. Third
-4. Fourth
+1. Gohyun Kim
+2. Simon Sprouse
+3. Michael Nix
+4. Austin Karimi
 
 ## 2. Project topic (e.g., parallel sorting algorithms)
 
