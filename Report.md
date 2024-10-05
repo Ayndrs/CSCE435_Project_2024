@@ -12,7 +12,43 @@
 
 ### 2a. Brief project description (what algorithms will you be comparing and on what architectures)
 
-- Bitonic Sort:
+
+
+Bitonic Merge Steps:
+
+
+1. Create MPI distribution
+- Determine number of processes
+- Receive master data
+- MPI_init()
+- MPI_comm_size()
+- MPI_comm_rank()
+
+2. Divide data to processes
+- MPI_scatter()
+- Each process also gets told a direction to sort
+
+3. All processes sort their initial array 
+- Quick sort on local array
+- Must know the direction to sort (asc or desc)
+
+4. Process Bitonic merge with neighbor process
+- i vs i+k comparison between both arrays
+- Recursive bitonic merge call on local array
+- Sort local array
+- MPI_sendrecv
+
+5. Gather data from processes
+- Local data should be bitonically sorted
+- MPI_gather()
+
+6. Finalize process
+- MPI_finalize()
+
+
+
+
+
 - Sample Sort:
 - Merge Sort:
 - Radix Sort:
