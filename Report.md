@@ -14,7 +14,7 @@
 
 
 
-Bitonic Merge Steps:
+#### Bitonic Merge Steps:
 
 
 1. Create MPI distribution
@@ -48,10 +48,9 @@ Bitonic Merge Steps:
 
 
 
-
-- Sample Sort:
-- Merge Sort:
-- Radix Sort:
+#### Sample Sort:
+#### Merge Sort:
+#### Radix Sort:
 
 ### 2b. Pseudocode for each parallel algorithm
 - For MPI programs, include MPI calls you will use to coordinate between processes
