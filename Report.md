@@ -44,7 +44,7 @@
 - i vs i+k comparison between both arrays
 - Recursive bitonic merge call on local array
 - Sort local array
-- MPI_sendrecv
+- MPI_sendrecv()
 
 5. Gather data from processes
 - Local data should be bitonically sorted
@@ -61,6 +61,7 @@
 #### Radix Sort:
 
 ### 2c. Evaluation plan - what and how will you measure and compare
-- Input sizes, Input types
+- Input sizes will all be powers of 2 (necessary for Bitonic Sort)
+- Input types will all be int
 - Strong scaling (same problem size, increase number of processors/nodes)
 - Weak scaling (increase problem size, increase number of processors)
