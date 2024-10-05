@@ -57,7 +57,56 @@
 
 
 #### Sample Sort:
+
+
 #### Merge Sort:
+
+1. Create MPI distribution
+- Determine number of processes
+- Receive master data
+- get number of processes with MPI_Comm_size()
+- get current process rank using MPI_Comm_rank()
+- if rank == 0:
+-   initalize unsorted array
+
+2. Divide data to processes
+- Broadcast number of elements 'n' to all processes with MPI_Bcast()
+- Calculate subarray size, n / num_processes
+- Scatter the data using MPI_scatter()
+
+3. All processes sort each subarray 
+- call merge_sort(subarray, left, right)
+- find mid point pivot
+- call merge_sort(subarray, left, mid)
+- call merge_sort(subarray, mid + 1, right)
+- merge all subarrays
+- merge(subarray, left, mid, right)
+- merge each subarray into halves into a temp array
+- copy remaining elements from left half and right half
+- copy the merged elements back to the original array
+
+4. Merge across processes
+- Initialize step = 1 for representing the distance between neighboring processes involved in merging their sorted arrays
+- while (step < num_processes): 
+-   if (the current process should receive data):
+-       if (neighboring process exists):
+-           Receive sorted array from process using MPI_Recv()
+-           Merge recerived array with the subarray
+-   else
+-       Send subarray to process using MPI_Send()
+-       break
+-   step *= 2
+
+5. Gather merged arrays at the master process
+- Use MPI_Gather()
+- if rank == 0:
+-   print(sorted_array)
+
+6. Finalize processes
+- Finalize MPI environment using MPI_Finalize()
+
+
+
 #### Radix Sort:
 
 ### 2c. Evaluation plan - what and how will you measure and compare
