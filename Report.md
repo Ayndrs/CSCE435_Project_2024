@@ -18,6 +18,9 @@
 - Radix Sort - Austin Karimi
   - I plan to implement radix sort using some parallelization strategies on a distributed memory system, utilizing grace for performance evaluation. I plan to utilize multiple nodes where the communication between them will occur via MPI.
 
+How we will communicate: Discord
+What versions do you plan to compare: An array that is sorted, unsorted, randomized. How time to calculate differs based on number of processes.
+
 This project will compare the performance of four parallel sorting algorithms: Bitonic Sort, Sample Sort, Merge Sort, and Radix Sort. 
 These algorithms will be implemented on different architectures to evaluate their scalability, speedup, and suitability for various data sets 
 and computing environments such as testing on different processes, tasks per node.
