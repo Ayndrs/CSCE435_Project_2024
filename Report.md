@@ -122,16 +122,16 @@ Radix Sort:
 
 		
 1. Initialize MPI 
-Get the total number of processes with MPI_Comm_size() (num_procs) 
-Get the rank of current process with MPI_Comm_rank() (rank)
+- Get the total number of processes with MPI_Comm_size() (num_procs) 
+- Get the rank of current process with MPI_Comm_rank() (rank)
 
 2. Divide data
-if rank == 0 then 
-    Generate or read the input data 
-    Split the input data into sections for each process 
-    Scatter the sections to all processes using MPI_scatter()
-Else
-    Receive the section of data 
+- if rank == 0 then 
+    - Generate or read the input data 
+    - Split the input data into sections for each process 
+    - Scatter the sections to all processes using MPI_scatter()
+- Else
+    - Receive the section of data 
 
 3. Perform radix sort
 - function Local_Radix_Sort(chunk): 
@@ -147,25 +147,25 @@ Else
     - return the sorted section
    
 4. Data exchange
-for each digit from least significant to most significant:
-    Count the occurrences of each digit in local data (local_histogram) 
+- for each digit from least significant to most significant:
+    - Count the occurrences of each digit in local data (local_histogram) 
 
-Perform MPI_Alltoall to share local_histograms with all processes (global_histogram) 
+- Perform MPI_Alltoall to share local_histograms with all processes (global_histogram) 
 
-Compute the send_counts and receive_counts based on global_histogram 
+- Compute the send_counts and receive_counts based on global_histogram 
 
-Prepare the data to send based on current digit and send_counts 
-Use MPI_Alltoallv for interprocess exchange (redistribute data)
+- Prepare the data to send based on current digit and send_counts 
+- Use MPI_Alltoallv for interprocess exchange (redistribute data)
 
-Update the local_data with received data
+- Update the local_data with received data
 
 5. Gather sorted data in master process
-if the rank == 0 then 
-    Gather the sorted data sections from all processes and Combine sections into a final sorted array 
-else 
-    Send the sorted section to the root process 
+- if the rank == 0 then 
+    - Gather the sorted data sections from all processes and Combine sections into a final sorted array 
+- else 
+    - Send the sorted section to the root process 
 
-Finalize MPI
+- Finalize MPI
 
 ### 2c. Evaluation plan - what and how will you measure and compare
 - Input sizes will all be powers of 2 (necessary for Bitonic Sort)
