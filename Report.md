@@ -12,10 +12,12 @@
 
 ### 2a. Brief project description (what algorithms will you be comparing and on what architectures)
 
-- Bitonic Sort
+- Bitonic Sort - Simon Sprouse
 - Sample Sort
-- Merge Sort
-- Radix Sort
+- Merge Sort - Gohyun Kim
+- Radix Sort - Austin Karimi
+  - I plan to implement radix sort using some parallelization strategies on a distributed memory system, utilizing grace for performance evaluation. I plan to utilize multiple nodes where the communication between them will occur via MPI.
+
 
 ### 2b. Pseudocode for each parallel algorithm
 - For MPI programs, include MPI calls you will use to coordinate between processes
@@ -109,8 +111,57 @@
 
 #### Radix Sort:
 
+Radix Sort: 
+
+
+		
+Initialize MPI 
+Get the total number of processes with MPI_Comm_size() (num_procs) 
+Get the rank of current process with MPI_Comm_rank() (rank) 
+
+if rank == 0 then 
+    Generate or read the input data 
+    Split the input data into sections for each process 
+    Scatter the sections to all processes using MPI_scatter()
+Else
+    Receive the section of data 
+
+function Local_Radix_Sort(chunk): 
+    Determine the maximum number of digits (max_digits) in the data
+    for digit from least significant to most significant do
+        Initialize empty buckets (0 to 9) for current digit
+        for each number in the section do 
+            Find the current digit of the number 
+            Place the number in corresponding bucket 
+        end for 
+        Reassemble the section by concatenating all the buckets in order (0 to 9) 
+    end for 
+    return the sorted section
+
+for each digit from least significant to most significant:
+    Count the occurrences of each digit in local data (local_histogram) 
+
+Perform MPI_Alltoall to share local_histograms with all processes (global_histogram) 
+
+Compute the send_counts and receive_counts based on global_histogram 
+
+Prepare the data to send based on current digit and send_counts 
+Use MPI_Alltoallv for interprocess exchange (redistribute data)
+
+Update the local_data with received data
+
+if the rank == 0 then 
+    Gather the sorted data sections from all processes and Combine sections into a final sorted array 
+else 
+    Send the sorted section to the root process 
+
+Finalize MPI
+
+
 ### 2c. Evaluation plan - what and how will you measure and compare
 - Input sizes will all be powers of 2 (necessary for Bitonic Sort)
 - Input types will all be int
+- We plan to have Small, medium and large input sizes where we will measure the total execution time, and send/receive times.
+- We will utilize different datatypes, with Sorted, Sorted with 1% perturbed, Random and Reverse sorted where we will also measure sorting time and send/receive time to observe how different input types impact performance.
 - Strong scaling (same problem size, increase number of processors/nodes)
 - Weak scaling (increase problem size, increase number of processors)
