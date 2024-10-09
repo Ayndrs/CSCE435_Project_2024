@@ -13,7 +13,7 @@
 ### 2a. Brief project description (what algorithms will you be comparing and on what architectures)
 
 - Bitonic Sort - Simon Sprouse
-- Sample Sort
+- Sample Sort - Michael Nix
 - Merge Sort - Gohyun Kim
 - Radix Sort - Austin Karimi
 
@@ -64,6 +64,75 @@ and computing environments such as testing on different processes, tasks per nod
 
 
 #### Sample Sort:
+Note:
+- The fastest sorting algorithm should be used for the sequential internal sorting. Quick Sort is the most common algorithm for this, but Insertion Sort would be faster for smaller arrays. e.g. When the number of processors is large enough to make it reasonable
+- Despite this, I will only include Quick Sort in the pseudo-code due to the testing required to find the cut-off required to make Insertion Sort useful 
+
+parameters: 
+- Unsorted array (arr)
+- number of processors (p)
+1. Initialize MPI environment
+- MPI_Init()
+- MPI_Comm_rank() to get rank of the process
+- MPI_Comm_size() to get the number of processes
+
+2. Split the array among processes
+- num subarrays = number of processes
+- get each local subarray's size (using MPI_Comm_size)
+- allocate memory for each local subarray
+- MPI_Scatter(...)
+
+3. Sort the local arrays 
+- QuickSort(subarray) //see below
+
+4. Select local samples
+- From each subarray, place p-1 values into a sample-array 
+    - each value is evenly spaced in the parent sub-array
+
+5. Gather the local samples
+- if rank == 0: allocate space for all the samples
+- MPI_Gather(local samples)
+
+6. Sort the collected samples (master process)
+- sorted samples = QuickSort(gathered samples)
+
+7. Create splitter array (master process)
+- splitters = []
+- for i in [1..p-1]: splitters += sorted samples[i*p]
+
+8. Broadcast splitters
+- MPI_Bcast(splitters)
+
+9. Split local arrays into buckets (based on splitters)
+- buckets = 1xp array
+- for each item in local array:
+    find the bucket for the item
+    append the item to buckets array
+
+10. Send and receive the buckets to the corresponding processes
+- MPI_Alltoall(...) to share the number of sends and receiving values
+- MPI_Alltoallv(...) to share the values
+
+11. Sort received buckets locally
+- QuickSort(received buckets)
+
+12. Gather sorted subarrays at master
+- MPI_Gather(local sorted arrays)
+- MPI_Finalize()
+
+13. Return (master)
+- if rank == 0 return sorted
+
+QuickSort(arr): //sequential quicksort
+- Choose a pivot
+- Split arr into 3 partitions
+    - a = values less than the pivot
+    - b = the pivot
+    - c = values greater than the pivot
+- prev = QuickSort(a)
+- next = QuickSort(c)
+- return a + b + c
+
 
 
 #### Merge Sort:
