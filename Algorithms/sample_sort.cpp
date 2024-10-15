@@ -2,23 +2,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <algorithm>
 
 #include <caliper/cali.h>
 #include <caliper/cali-manager.h>
 #include <adiak.hpp>
 
-void generate_random_data(std::vector<unsigned int>& local_data, int rank) {
+void generate_random_data(std::vector<int>& local_data, int rank) {
     srand(time(NULL) + rank); // Use rank to differentiate seeds
-    for (unsigned int& elem : local_data) {
+    for (int& elem : local_data) {
         elem = rand();
     }
 }
 
-std::vector<unsigned int> select_local_samples(const std::vector<unsigned int>& local_data, unsigned int num_samples) {
+std::vector<int> select_local_samples(const std::vector<int>& local_data, int num_samples) {
     int local_size = local_data.size();
     std::vector<int> local_samples(num_samples);
     
-    for (unsigned int i = 0; i < num_samples; i++) {
+    for (int i = 0; i < num_samples; i++) {
         local_samples[i] = local_data[i * local_size / num_samples];
     }
     
@@ -34,14 +35,14 @@ int main(int argc, char* argv[]) {
     MPI_Comm_size(MPI_COMM_WORLD, &num_procs);
 
     // Step 1: Generate random data on each process
-    unsigned int num_elements;
+    int num_elements;
     if(argc < 2) {
         printf("Usage: %s <num elements>\n", argv[0]);
         return 1;
     }
     num_elements = atoi(argv[1]);
-    unsigned int local_size = num_elements / num_procs;
-    std::vector<unsigned int> local_data(local_size);
+    int local_size = num_elements / num_procs;
+    std::vector<int> local_data(local_size);
     generate_random_data(local_data, rank);
 
     // Step 2: Local sorting
@@ -92,7 +93,7 @@ int main(int argc, char* argv[]) {
                   recv_buffer.data(), recv_counts.data(), recv_displs.data(), MPI_INT, MPI_COMM_WORLD);
 
     // Step 7: Final local sorting
-    local_sort(recv_buffer);
+    std::sort(recv_buffer);
 
     // At this point, each process has its sorted partition of the global data
     std::cout << "Process " << rank << " sorted " << recv_buffer.size() << " elements." << std::endl;
