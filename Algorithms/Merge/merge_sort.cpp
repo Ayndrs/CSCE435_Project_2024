@@ -75,10 +75,10 @@ int main(int argc, char** argv) {
     CALI_MARK_END("comm");
     
     CALI_MARK_BEGIN("comp");
-    CALI_MARK_BEGIN("comp_small");
+    CALI_MARK_BEGIN("comp_large");
     int *temp_array = (int*)malloc(local_chunk_size * sizeof(int));
     merge_sort(local_array, temp_array, 0, local_chunk_size - 1);
-    CALI_MARK_END("comp_small");
+    CALI_MARK_END("comp_large");
     CALI_MARK_END("comp");
   
     //combine subarrays
