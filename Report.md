@@ -147,7 +147,7 @@ QuickSort(arr): //sequential quicksort
 
 2. Divide data to processes
 - Calculate subarray size, n / num_processes
-- have each worker compute the subarray using MPI_Send()
+- have each worker compute the subarray using MPI_Scatter()
 
 3. All processes sort each subarray 
 - call merge_sort(subarray, left, right)
@@ -173,7 +173,7 @@ QuickSort(arr): //sequential quicksort
 -   step *= 2
 
 5. Combine merged arrays at the master process
-- MPI_Recv() to receive all subarrays
+- MPI_Gather() to receive all subarrays
 - if rank == 0:
 -   print(sorted_array)
 
