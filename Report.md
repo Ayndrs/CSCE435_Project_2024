@@ -245,11 +245,23 @@ Radix Sort:
 - We will analyze how close the algorithms come to ideal strong scaling and identify bottlenecks (like communication overhead) as the number of processors increases.
 - We will evaluate how well the algorithms maintain performance as the problem size grows, looking at any increases in execution time that could be due to communication overhead or memory usage as more processors are added.
 
-### 2
+### 2d. Implementation Description
+
+# Mergesort:
+- Initialize MPI environment 
+- Get rank and processes
+- Initialize array given the size at the master process
+- Divide data into chunks and MPI_Scatter() to distribute the data into subarrays
+- Sort each subarrays using the merge_sort() function
+- MPI_Gather() all sorted subarrays in the master process
+- Merge all subarrays into one using merge_sort()
+- check() to make sure the final array is sorted
+- MPI_Barrier to synchronize all processes
+- Finalize MPI environment
 
 ### 3a. Caliper instrumentation
 
-# MPI Mergesort (2^16, 32)
+# MPI Mergesort Tree (2^16, 32)
 1.669 main
 ├─ 0.000 MPI_Init
 ├─ 0.031 main
