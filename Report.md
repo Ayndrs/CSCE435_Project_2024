@@ -259,6 +259,20 @@ Radix Sort:
 - MPI_Barrier to synchronize all processes
 - Finalize MPI environment
 
+# Samplesort:
+- Initialize MPI Environment
+- Generate Data
+- Sort the Data on each processor
+- Select equally spaced samples
+- Gather the samples, and sort them
+- Select pivots from the samples
+- MPI_Bcast pivots
+- partition based on pivots
+- Redistribute data MPI_Alltoall & MPI_Alltoallv
+- Final Sort
+- Correctness Check
+- Finalize
+
 ### 3a. Caliper instrumentation
 
 # MPI Mergesort Tree (2^16, 32)
@@ -274,6 +288,35 @@ Radix Sort:
 │  │  └─ 0.001 comp_large
 │  └─ 0.000 correctness_check
 ├─ 0.028 MPI_Barrier
+├─ 0.000 MPI_Finalize
+├─ 0.000 MPI_Initialized
+├─ 0.000 MPI_Finalized
+└─ 0.001 MPI_Comm_dup
+
+# MPI Samplesort Tree (2^16, 4 Processors)
+0.392 main
+├─ 0.391 main
+│  ├─ 0.365 MPI_Init
+│  │  └─ 0.000 MPI_Init
+│  ├─ 0.001 data_init_runtime
+│  ├─ 0.010 comp
+│  │  ├─ 0.010 comp_large
+│  │  └─ 0.000 comp_small
+│  ├─ 0.009 comm
+│  │  ├─ 0.004 comm_small
+│  │  │  ├─ 0.000 MPI_Gather
+│  │  │  │  └─ 0.000 MPI_Gather
+│  │  │  └─ 0.003 MPI_Bcast
+│  │  │     └─ 0.003 MPI_Bcast
+│  │  └─ 0.006 comm_large
+│  │     ├─ 0.005 MPI_Alltoall
+│  │     │  └─ 0.005 MPI_Alltoall
+│  │     └─ 0.000 MPI_Alltoallv
+│  │        └─ 0.000 MPI_Alltoallv
+│  └─ 0.001 correctness_check
+│     ├─ 0.000 MPI_Send
+│     ├─ 0.000 MPI_Recv
+│     └─ 0.000 MPI_Allreduce
 ├─ 0.000 MPI_Finalize
 ├─ 0.000 MPI_Initialized
 ├─ 0.000 MPI_Finalized

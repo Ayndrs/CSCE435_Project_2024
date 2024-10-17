@@ -241,6 +241,8 @@ int main(int argc, char *argv[]) {
     // Finalize Caliper and MPI
     // cali_mpi_finalize();
     CALI_MARK_END("main");
+    mgr.stop();
+    mgr.flush();
 
     adiak::init(NULL);
     adiak::launchdate();
