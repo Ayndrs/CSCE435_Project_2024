@@ -29,6 +29,7 @@ int main(int argc, char** argv) {
     const char* comm_large = "comm_large";
     const char* comp = "comp";
     const char* comp_large = "comp_large";
+    const char* comp_small = "comp_small";
     const char* correctness_check = "correctness_check";
    
     //declare array
@@ -74,10 +75,10 @@ int main(int argc, char** argv) {
     CALI_MARK_END("comm");
     
     CALI_MARK_BEGIN("comp");
-    CALI_MARK_BEGIN("comp_large");
+    CALI_MARK_BEGIN("comp_small");
     int *temp_array = (int*)malloc(local_chunk_size * sizeof(int));
     merge_sort(local_array, temp_array, 0, local_chunk_size - 1);
-    CALI_MARK_END("comp_large");
+    CALI_MARK_END("comp_small");
     CALI_MARK_END("comp");
   
     //combine subarrays
