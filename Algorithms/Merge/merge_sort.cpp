@@ -48,7 +48,6 @@ int main(int argc, char** argv) {
     MPI_Comm_rank(MPI_COMM_WORLD, &process_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &total_processes);
 
-    CALI_MARK_BEGIN("main");
   
     cali::ConfigManager mgr;
     mgr.start();
@@ -73,8 +72,6 @@ int main(int argc, char** argv) {
     MPI_Scatter(global_array, local_chunk_size, MPI_INT, local_array, local_chunk_size, MPI_INT, 0, MPI_COMM_WORLD);
     CALI_MARK_END("comm_large");
     CALI_MARK_END("comm");
-    
-    
     
     CALI_MARK_BEGIN("comp");
     CALI_MARK_BEGIN("comp_large");
@@ -113,8 +110,6 @@ int main(int argc, char** argv) {
         free(final_sorted_array);
         free(final_temp_array);
     }
- 
-    CALI_MARK_END("main");
 
     free(global_array);
     free(local_array);
@@ -136,7 +131,13 @@ int main(int argc, char** argv) {
     adiak::value("group_num", 22); 
     adiak::value("implementation_source", implementation_source);
  
+    
+    CALI_MARK_BEGIN("comm");
+    CALI_MARK_BEGIN("comm_large");
     MPI_Barrier(MPI_COMM_WORLD);
+    CALI_MARK_END("comm_large");
+    CALI_MARK_END("comm");
+    
     mgr.stop();
     mgr.flush();
     MPI_Finalize();

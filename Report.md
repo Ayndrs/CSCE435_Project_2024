@@ -245,19 +245,19 @@ Radix Sort:
 
 ### 3a. Caliper instrumentation
 
-# MPI Mergesort
-60.998 main
+# MPI Mergesort (2^16, 32)
+1.669 main
 ├─ 0.000 MPI_Init
-├─ 12.993 main
-│  ├─ 5.581 data_init_runtime
-│  ├─ 0.286 comm
-│  │  └─ 0.286 comm_large
-│  │     ├─ 0.193 MPI_Scatter
-│  │     └─ 0.093 MPI_Gather
-│  ├─ 7.072 comp
-│  │  └─ 7.072 comp_large
-│  └─ 0.766 correctness_check
-├─ 47.137 MPI_Barrier
+├─ 0.031 main
+│  ├─ 0.001 data_init_runtime
+│  ├─ 0.024 comm
+│  │  └─ 0.024 comm_large
+│  │     ├─ 0.022 MPI_Scatter
+│  │     └─ 0.001 MPI_Gather
+│  ├─ 0.001 comp
+│  │  └─ 0.001 comp_large
+│  └─ 0.000 correctness_check
+├─ 0.028 MPI_Barrier
 ├─ 0.000 MPI_Finalize
 ├─ 0.000 MPI_Initialized
 ├─ 0.000 MPI_Finalized
