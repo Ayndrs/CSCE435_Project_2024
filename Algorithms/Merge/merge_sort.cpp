@@ -114,7 +114,7 @@ int main(int argc, char** argv) {
         free(final_temp_array);
     }
  
-    CALI_MARK_BEGIN("main");
+    CALI_MARK_END("main");
 
     free(global_array);
     free(local_array);
