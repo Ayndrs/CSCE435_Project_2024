@@ -177,7 +177,10 @@ QuickSort(arr): //sequential quicksort
 - if rank == 0:
 -   print(sorted_array)
 
-6. Finalize processes
+6. Synchronize processes 
+- MPI_Barrier() to ensure all processes have completed sorting 
+
+7. Finalize processes
 - Finalize MPI environment using MPI_Finalize()
 
 
@@ -242,6 +245,7 @@ Radix Sort:
 - We will analyze how close the algorithms come to ideal strong scaling and identify bottlenecks (like communication overhead) as the number of processors increases.
 - We will evaluate how well the algorithms maintain performance as the problem size grows, looking at any increases in execution time that could be due to communication overhead or memory usage as more processors are added.
 
+### 2
 
 ### 3a. Caliper instrumentation
 
