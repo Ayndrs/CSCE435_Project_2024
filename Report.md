@@ -273,6 +273,20 @@ Radix Sort:
 - Correctness Check
 - Finalize
 
+# Radixsort:
+- Initialize MPI Environment
+- Collect Metadata
+- Generate the Arrays (sorted, unsorted, reverse, perturbed)
+- Instantiate master process
+- Find largest value in array and bit length
+- Partition data in sections to different processes (distribute_data)
+- Inside of workers partition array values into vectors by current bit (0 or 1)
+- send data back to master to gather_results
+- Receive worker vectors and edit input array
+- Repeat for all bit digits in maximum arrray value 
+- Send termination signal to worker processes indicating end of sort
+- Correctness Check
+- Finalize
 ### 3a. Caliper instrumentation
 
 # MPI Mergesort Tree (2^16, 32)
