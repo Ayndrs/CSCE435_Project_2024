@@ -399,6 +399,15 @@ Maybe this current version of Bitonic sort would be more usefull if the comparis
 ![Comm Bitonic](./images/bitonic/speedup_comm.png)
 
 
+## Merge Sort
+
+I had some communication issues with my MPI functions, so I had trouble running input sizes greater than 2^20. In addition, using 1024 processors gave me some trouble and I think it’s because of the same reason that there is some overhead that is reducing the efficiency in my code.
+Also, I was not able to graph the speedup and the weak scaling graphs because of the way I wrote my caliper marks. This is something I will fix before the presentation.
+
+More on the graphs, however, all of the lines seem to be similar in terms of Avg time per rank. There are some outliers, and this may be due to certain array combinations causing a slowdown. It also seems like that higher sized arrays perform better with a higher number of processes and vice versa.
+
+
+
 For input_size's:
 - 2^16, 2^18, 2^20, 2^22, 2^24, 2^26, 2^28
 
