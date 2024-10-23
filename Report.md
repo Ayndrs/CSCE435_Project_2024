@@ -406,6 +406,15 @@ Also, I was not able to graph the speedup and the weak scaling graphs because of
 
 More on the graphs, however, all of the lines seem to be similar in terms of Avg time per rank. There are some outliers, and this may be due to certain array combinations causing a slowdown. It also seems like that higher sized arrays perform better with a higher number of processes and vice versa.
 
+![Main Merge 2^16](images/bitonic/merge/merge_strong_scaling_65536.png)
+![Main Merge 2^18](images/bitonic/merge/merge_strong_scaling_262144.png)
+![Main Merge 2^20](images/bitonic/merge/merge_strong_scaling_1048576.png)
+![Comm Merge 2^16](images/bitonic/merge/merge_strong_scaling_comm_262144.png)
+![Comm Merge 2^18](images/bitonic/merge/merge_strong_scaling_comm_655356.png)
+![Comm Merge 2^20](images/bitonic/merge/merge_strong_scaling_comm_1048576.png)
+![Comp Merge 2^16](images/bitonic/merge/merge_strong_scaling_comp_65536.png)
+![Comp Merge 2^18](images/bitonic/merge/merge_strong_scaling_comp_262144.png)
+![Comp Merge 2^20](images/bitonic/merge/merge_strong_scaling_comp_1048576.png)
 
 
 For input_size's:
