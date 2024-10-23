@@ -336,6 +336,27 @@ Radix Sort:
 ├─ 0.000 MPI_Finalized
 └─ 0.001 MPI_Comm_dup
 
+# MPI Radixsort Tree (2^10, 4)
+0.386 main
+├─ 0.000 MPI_Init
+├─ 0.000 data_init_runtime
+├─ 0.005 comp
+│  └─ 0.006 comp
+│     ├─ 0.004 MPI_Recv
+│     ├─ 0.001 MPI_Bcast
+│     └─ 0.000 MPI_Send
+├─ 0.005 comm
+│  ├─ 0.001 MPI_Send
+│  └─ 0.003 MPI_Recv
+├─ 0.001 MPI_Bcast
+├─ 0.001 MPI_Barrier
+├─ 0.000 MPI_Send
+├─ 0.000 MPI_Finalize
+├─ 0.000 correctness_check
+├─ 0.000 MPI_Initialized
+├─ 0.000 MPI_Finalized
+└─ 0.001 MPI_Comm_dup
+
 ### 3b. Collect Metadata
 
 # Mergesort
@@ -378,6 +399,16 @@ profile
            scalability  group_num implementation_source  
 profile                                                  
 2700912136        weak         22                online 
+
+# Radixsort
+
+algorithm	programming_model	data_type	size_of_data_type	input_size	input_type	num_procs	scalability	group_num	implementation_source
+node	profile																										
+{'name': 'main', 'type': 'function'}	678431665	1.0	regionprofile	0.385602	0.385948	0.385807	1.543228	0.000000	0.376337	0.378955	0.377598	1.510390	NaN	NaN	NaN	NaN	main	binary_radix_sort	mpi	int	4	1024	0	4	strong	22	online/ai/handwritten
+{'name': 'MPI_Init', 'type': 'function'}	678431665	2.0	regionprofile	0.000029	0.000038	0.000035	0.000140	0.000000	0.000029	0.000038	0.000035	0.000140	1.0	1.0	1.0	4.0	MPI_Init	binary_radix_sort	mpi	int	4	1024	0	4	strong	22	online/ai/handwritten
+{'name': 'data_init_runtime', 'type': 'function'}	678431665	3.0	regionprofile	0.000056	0.000056	0.000056	0.000056	0.000000	0.000056	0.000056	0.000056	0.000056	1.0	1.0	1.0	1.0	data_init_runtime	binary_radix_sort	mpi	int	4	1024	0	4	strong	22	online/ai/handwritten
+{'name': 'comp', 'type': 'function'}	678431665	4.0	regionprofile	0.000019	0.007306	0.004833	0.019333	0.000008	0.000019	0.000021	0.000020	0.000080	1.0	1.0	1.0	4.0	comp	binary_radix_sort	mpi	int	4	1024	0	4	strong	22	online/ai/handwritten
+678431665	16.0	regionprofile	0.005921	0.007286	0.006418	0.019253	0.000000	0.000915	0.000959	0.000943	0.002828	1.0	1.0	1.0	3.0	comp	binary_radix_sort	mpi	int	4	1024	0	4	strong	22	online/ai/handwritten
 
 ## 4. Performance evaluation
 
