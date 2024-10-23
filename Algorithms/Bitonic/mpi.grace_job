@@ -5,7 +5,7 @@
 #
 ##NECESSARY JOB SPECIFICATIONS
 #SBATCH --job-name=JobName       #Set the job name to "JobName"
-#SBATCH --time=2:00:00           #Set the wall clock limit
+#SBATCH --time=1:00:00           #Set the wall clock limit
 #SBATCH --nodes=1                #Request nodes
 #SBATCH --ntasks-per-node=2      #Request 2 tasks (cores) per node
 #SBATCH --mem=16G                #Request 16GB per node.  The node has 384GB, so if you are requesting more cores you can also request more memory.
@@ -18,11 +18,16 @@
 ##First Executable Line
 #
 processes=$1
+power=$2
+sort_method=$3
+
 
 module load intel/2020b       # load Intel software stack
 module load CMake/3.12.1
+module load GCCcore/8.3.0
+module load PAPI/6.0.0
 
-CALI_CONFIG="spot(output=bitonic-${processes}.cali)" \
-mpirun -np $processes ./Bitonic 
+CALI_CONFIG="spot(output=bitonic-${processes}-${power}-${sort_method}.cali)" \
+mpirun -np $processes ./Bitonic $power $sort_method
 
 squeue -j $SLURM_JOBID
