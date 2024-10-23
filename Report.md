@@ -385,6 +385,12 @@ Include detailed analysis of computation performance, communication performance.
 Include figures and explanation of your analysis.
 
 ### 4a. Vary the following parameters
+
+![Main Bitonic](./images/bitonic/speedup_main.png)
+![Comp Large Bitonic](./images/bitonic/speedup_comp_large.png)
+![Comm Bitonic](./images/bitonic/speedup_comm.png)
+
+
 For input_size's:
 - 2^16, 2^18, 2^20, 2^22, 2^24, 2^26, 2^28
 
