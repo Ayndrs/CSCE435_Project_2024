@@ -386,6 +386,14 @@ Include figures and explanation of your analysis.
 
 ### 4a. Vary the following parameters
 
+## Bitonic Sort
+
+My implementation of Bitonic sort scales very well in the computation but very poorly in the communication. You can see that after a certain point, the extra overhead from the comm time reduces the efficiency. I believe that the array passing mechanism is the most expensive element that causes this. 
+
+I should also mention that grace stopped letting me submit jobs, but that's ok because Bitonic sort is independent of input ordering, and I have all the cali files for a single input order. 
+
+Maybe this current version of Bitonic sort would be more usefull if the comparison method was significantly more intensive than the data broadcast. In this case, Bitonic sort is probably not worth the extra time and resources. 
+
 ![Main Bitonic](./images/bitonic/speedup_main.png)
 ![Comp Large Bitonic](./images/bitonic/speedup_comp_large.png)
 ![Comm Bitonic](./images/bitonic/speedup_comm.png)
