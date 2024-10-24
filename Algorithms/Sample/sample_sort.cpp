@@ -24,6 +24,43 @@ std::vector<int> generate_random_data(int size, int lower = 0, int upper = 10000
     return data;
 }
 
+std::vector<int> generate_sorted_data(int size, int min, int max) {
+    std::vector<int> data(size);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(min, max);
+    data[0] = dis(gen);
+    for (int i = 1; i < size; ++i) {
+        data[i] = data[i - 1] + dis(gen);
+    }
+    return data;
+}
+
+std::vector<int> generate_reverse_sorted_data(int size, int min, int max) {
+    std::vector<int> data(size);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(min, max);
+    data[size - 1] = dis(gen);
+    for (int i = size - 2; i >= 0; --i) {
+        data[i] = data[i + 1] + dis(gen);
+    }
+    return data;
+}
+
+std::vector<int> generate_one_percent_perturbed_data(int size, int min, int max) {
+    std::vector<int> data = generate_sorted_data(size, min, max);
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> dis(0, size / 100);
+    for (int i = 0; i < size / 100; ++i) {
+        int idx1 = dis(gen);
+        int idx2 = dis(gen);
+        std::swap(data[idx1], data[idx2]);
+    }
+    return data;
+}
+
 bool check_correctness(std::vector<int> &local_data, MPI_Comm comm) {
     int rank, size;
     MPI_Comm_rank(comm, &rank);
@@ -184,7 +221,7 @@ void sample_sort(std::vector<int> &local_data, MPI_Comm comm) {
 
 int main(int argc, char *argv[]) {
     CALI_CXX_MARK_FUNCTION;
-    CALI_MARK_BEGIN("main");
+    // CALI_MARK_BEGIN("main");
     CALI_MARK_BEGIN("MPI_Init");
     MPI_Init(&argc, &argv);
     CALI_MARK_END("MPI_Init");
@@ -192,8 +229,12 @@ int main(int argc, char *argv[]) {
     // cali_mpi_init(); // Initialize Caliper MPI support
 
     int rank, size;
+    CALI_MARK_BEGIN("MPI_Comm_rank");
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    CALI_MARK_END("MPI_Comm_rank");
+    CALI_MARK_BEGIN("MPI_Comm_size");
     MPI_Comm_size(MPI_COMM_WORLD, &size);
+    CALI_MARK_END("MPI_Comm_size");
 
     cali::ConfigManager mgr;
     mgr.start();
@@ -201,15 +242,33 @@ int main(int argc, char *argv[]) {
     double start_time = MPI_Wtime();
 
     double init_time = MPI_Wtime();
-    CALI_MARK_BEGIN("data_init_runtime");
     // Determine the size of the local data
-    if(argc != 2) {
-        std::cerr << "Usage: " << argv[0] << " <total_data_size>" << std::endl;
+    if(argc != 3) {
+        std::cerr << "Usage: " << argv[0] << " <total_data_size> <input_type>" << std::endl;
         MPI_Abort(MPI_COMM_WORLD, 1);
     }
     int total_data_size = atoi(argv[1]);
     int local_data_size = total_data_size / size;
-    std::vector<int> local_data = generate_random_data(local_data_size);
+    int input_type = atoi(argv[2]);
+    std::vector<int> local_data;
+    CALI_MARK_BEGIN("data_init_runtime");
+    switch (input_type) {
+        case 0:
+            local_data = generate_random_data(local_data_size);
+            break;
+        case 1:
+            local_data = generate_sorted_data(local_data_size, 0, 1000000);
+            break;
+        case 2:
+            local_data = generate_reverse_sorted_data(local_data_size, 0, 1000000);
+            break;
+        case 3:
+            local_data = generate_one_percent_perturbed_data(local_data_size, 0, 1000000);
+            break;
+        default:
+            std::cerr << "Invalid input type: " << input_type << std::endl;
+            MPI_Abort(MPI_COMM_WORLD, 1);
+    }
     CALI_MARK_END("data_init_runtime");
     init_time = MPI_Wtime() - init_time;
 
@@ -240,7 +299,7 @@ int main(int argc, char *argv[]) {
 
     // Finalize Caliper and MPI
     // cali_mpi_finalize();
-    CALI_MARK_END("main");
+    //CALI_MARK_END("main");
     mgr.stop();
     mgr.flush();
 
@@ -254,8 +313,21 @@ int main(int argc, char *argv[]) {
     adiak::value("data_type", "int");
     adiak::value("size_of_data_type", sizeof(int));
     adiak::value("input_size", total_data_size);
-    adiak::value("input_type", "random"); 
-    adiak::value("num_procs", rank); 
+    switch(input_type) {
+        case 0:
+            adiak::value("input_type", "random");
+            break;
+        case 1:
+            adiak::value("input_type", "sorted");
+            break;
+        case 2:
+            adiak::value("input_type", "reverse_sorted");
+            break;
+        case 3:
+            adiak::value("input_type", "one_percent_perturbed");
+            break;
+    }
+    adiak::value("num_procs", size); 
     adiak::value("scalability", "strong"); 
     adiak::value("group_num", 22); 
     adiak::value("implementation_source", "online");

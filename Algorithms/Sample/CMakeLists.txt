@@ -5,7 +5,7 @@ find_package(caliper REQUIRED)
 find_package(adiak REQUIRED)
 
 
-add_executable(sample_sort ../Algorithms/sample_sort.cpp)
+add_executable(sample_sort ./sample_sort.cpp)
 
 message(STATUS "MPI includes : ${MPI_INCLUDE_PATH}")
 message(STATUS "Caliper includes : ${caliper_INCLUDE_DIR}")

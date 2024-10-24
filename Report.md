@@ -447,6 +447,24 @@ More on the graphs, however, all of the lines seem to be similar in terms of Avg
 ![Comp Merge 2^18](images/bitonic/merge/merge_strong_scaling_comp_262144.png)
 ![Comp Merge 2^20](images/bitonic/merge/merge_strong_scaling_comp_1048576.png)
 
+# Sample Sort
+
+I had trouble with the graphs allowing me to display the speedup. Otherwise, everythinng went smoothly outside of the MPI calls taking 4-8 hours pending. The graphs also had some weird artifacts, but the lines were accurate. 
+
+Weak Scaling:
+![Main Sample 2^16](images\sample\plot_65536_main.png)
+![Comm Sample 2^16](images\sample\plot_65536_comm.png)
+![Comp Large Sample 2^16](images\sample\plot_65536_comp_large.png)
+
+Strong Scaling:
+![Main Sample 2^20](images\sample\plot_1048576_main.png)
+![Comm Sample 2^20](images\sample\plot_1048576_comm.png)
+![Comp Large Sample 2^20](images\sample\plot_1048576_comp_large.png)
+![Main Sample 2^22](images\sample\plot_4194304_main.png)
+![Comm Sample 2^22](images\sample\plot_4194304_comm.png)
+![Comp Large Sample 2^22](images\sample\plot_4194304_comp_large.png)
+
+
 
 For input_size's:
 - 2^16, 2^18, 2^20, 2^22, 2^24, 2^26, 2^28
