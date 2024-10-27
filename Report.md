@@ -464,7 +464,18 @@ Strong Scaling:
 ![Comm Sample 2^22](images\sample\plot_4194304_comm.png)
 ![Comp Large Sample 2^22](images\sample\plot_4194304_comp_large.png)
 
+# Radix Sort
 
+I had some issues requesting 32 nodes so I was unable to run my sort on 1024 processes, but everything else ran quite smoothly. On average a direct scaling of computation time decrease as the number of processors increase can be seen as expected, with the average communication time increasing. I will graph the speedup for my presentation as I have not gotten to that yet but overall the results appear to be as expected.
+![Main Radix 2^16](images/radix/65535_main.png)
+![Comp Radix 2^16](images/radix/65535_comp.png)
+![Comm Radix 2^16](images/radix/65535_comm.png)
+![Main Radix 2^18](images/radix/262144_main.png)
+![Comp Radix 2^18](images/radix/262144_comp.png)
+![Comm Radix 2^18](images/radix/262144_comm.png)
+![Main Radix 2^20](images/radix/1048576_main.png)
+![Comp Radix 2^20](images/radix/1048576_comp.png)
+![Comm Radix 2^20](images/radix/1048576_comm.png)
 
 For input_size's:
 - 2^16, 2^18, 2^20, 2^22, 2^24, 2^26, 2^28
