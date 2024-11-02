@@ -475,17 +475,35 @@ Strong Scaling:
 
 # Radix Sort
 
-I had some issues requesting 32 nodes so I was unable to run my sort on 1024 processes, but everything else ran quite smoothly. On average a direct scaling of computation time decrease as the number of processors increase can be seen as expected, with the average communication time increasing. I will graph the speedup for my presentation as I have not gotten to that yet but overall the results appear to be as expected.
+I had some issues requesting 32 nodes sometimes so I was unable to run my sort on 1024 processes for a few arrays, but everything else ran quite smoothly. On average a direct scaling of computation time decrease as the number of processors increase can be seen as expected, with the average communication time increasing. The Strong Scaling for main represents a direct exponential decay relationship for the larger array sizes (2^28, 2^26 and 2^24)as you increase the number of processes but has quite a performance fall off as you get to smaller array sizes. This is likely due to the communication overhead and inefficiency as a function of the parallelization. This exponentially decreasing relationship remains consistent amongst all comp_large graphs for every array size, which makes sense since there is a direct relationship between computation time decreasing as you have more processors handling less amounts of data each. Generally, the weak scaling follows a flat linear relationship as you increas the processors relative to the input size, but for communication on the larger array sizes it appears to increase rapidly. The strong scaling speedup for communication shows a decreasing relationship as you increase the processor count, which makes sense because the overall communication time increases as the array size gets larger due to sending and receiving more data. The Strong Scaling speedup for main shows a Exponentially increasing relationship where the dropoff threshold increases as the array size increases, which makes sense because the larger array sizes can utilize more processor paralellization meanwhile the smaller array sizes experience an immediate performance dropoff due to the communication time outweighing the parallelized computation speed. Finally the Speedup for Comp_large shows a Directly increasing relationship where the plateau slowly increases as the array size increases  which is expected due to the increased effects of parallelization for the larger array sizes with more data to sort. 
 ![Main Radix 2^16](images/radix/65535_main.png)
+![Main Radix 2^18](images/radix/262144_main.png)
+![Main Radix 2^20](images/radix/1048576_main.png)
+![Main Radix 2^22](images/radix/4194304_main.png)
+![Main Radix 2^24](images/radix/16777216_main.png)
+![Main Radix 2^26](images/radix/67108864_main.png)
+![Main Radix 2^28](images/radix/268435465_main.png)
+
 ![Comp Radix 2^16](images/radix/65535_comp.png)
 ![Comm Radix 2^16](images/radix/65535_comm.png)
-![Main Radix 2^18](images/radix/262144_main.png)
 ![Comp Radix 2^18](images/radix/262144_comp.png)
 ![Comm Radix 2^18](images/radix/262144_comm.png)
-![Main Radix 2^20](images/radix/1048576_main.png)
 ![Comp Radix 2^20](images/radix/1048576_comp.png)
 ![Comm Radix 2^20](images/radix/1048576_comm.png)
 
+![Main Radix 2^16](images/radix/65535_strong.png)
+![Comp Radix 2^18](images/radix/262144_strong.png)
+![Comm Radix 2^20](images/radix/1048576_strong.png)
+![Main Radix 2^22](images/radix/4194304_strong.png)
+![Comp Radix 2^24](images/radix/16777216_strong.png)
+![Comm Radix 2^26](images/radix/67108864_strong.png)
+![Main Radix 2^28](images/radix/268435465_strong.png)
+
+![Comm Radix 2^16](images/radix/Com_large_weak.png)
+![Main Radix 2^18](images/radix/comm_weak.png)
+![Comp Radix 2^18](images/radix/Comm_speedup.png)
+![Comm Radix 2^18](images/radix/Comp_large_speedup.png)
+![Main Radix 2^20](images/radix/Main_speedup.png)
 For input_size's:
 - 2^16, 2^18, 2^20, 2^22, 2^24, 2^26, 2^28
 
