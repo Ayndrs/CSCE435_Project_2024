@@ -428,15 +428,32 @@ Include figures and explanation of your analysis.
 
 ## Bitonic Sort
 
+
 My implementation of Bitonic sort scales very well in the computation but very poorly in the communication. You can see that after a certain point, the extra overhead from the comm time reduces the efficiency. I believe that the array passing mechanism is the most expensive element that causes this. 
+
+In the plots it is clear to see that the speedup scaling for main only ever reaches a maximum of 50x even when running 1024 processes. This suggests to me that there is a scalability issue with either the hardware, or the code could use some efficiency improvements. Ideally we would see more speedup here. 
 
 I should also mention that grace stopped letting me submit jobs, but that's ok because Bitonic sort is independent of input ordering, and I have all the cali files for a single input order. 
 
 Maybe this current version of Bitonic sort would be more usefull if the comparison method was significantly more intensive than the data broadcast. In this case, Bitonic sort is probably not worth the extra time and resources. 
 
-![Main Bitonic](./images/bitonic/speedup_main.png)
-![Comp Large Bitonic](./images/bitonic/speedup_comp_large.png)
-![Comm Bitonic](./images/bitonic/speedup_comm.png)
+
+
+
+![Main Bitonic](./images/bitonic/Main_speedup.png)
+![Comp Large Bitonic](./images/bitonic/Comm_speedup.png)
+![Comm Bitonic](./images/bitonic/Comp_speedup.png)
+
+
+![Main Bitonic strong](./images/bitonic/main_strong.png)
+![Comp Large Bitonic strong](./images/bitonic/comp_strong.png)
+![Comm Bitonic strong](./images/bitonic/comm_strong.png)
+
+![Main Bitonic weak](./images/bitonic/main_weak.png)
+![Comp Large Bitonic weak](./images/bitonic/comp_weak.png)
+![Comm Bitonic weak](./images/bitonic/comm_weak.png)
+
+
 
 
 ## Merge Sort
