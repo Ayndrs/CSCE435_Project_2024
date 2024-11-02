@@ -441,20 +441,55 @@ Maybe this current version of Bitonic sort would be more usefull if the comparis
 
 ## Merge Sort
 
-I had some communication issues with my MPI functions, so I had trouble running input sizes greater than 2^20. In addition, using 1024 processors gave me some trouble and I think it’s because of the same reason that there is some overhead that is reducing the efficiency in my code.
-Also, I was not able to graph the speedup and the weak scaling graphs because of the way I wrote my caliper marks. This is something I will fix before the presentation.
+Below are my graphs for Strong scaling for comp, comm and main. There are also speedup and weak scaling.
+For the comp, it exponentially decreases as we add more processors. This makes sense since more workers are working to sort parts of the graph.
+However, comm takes longer with more processors. With more communication to be done, it makes sense that the time to look into them takes longer.
+My main is a little off because I marked my CALI stuff incorrectly. In addition, I believe that I didn't scale properly while running the jobs, which caused this error.
+Same goes for the speedup, but it is generally follows a trend from top to bottom based on the array size.
+Looking at each array size, however, the speedup scales nicely as it increases with more processors.
+For the weak scaling, I increased the array size and processors and used that data to create the graph.
+We should ideally see a flat line, and that is what we see here. We can see that the line scales scales very nicely as you increase processors and array size.
 
-More on the graphs, however, all of the lines seem to be similar in terms of Avg time per rank. There are some outliers, and this may be due to certain array combinations causing a slowdown. It also seems like that higher sized arrays perform better with a higher number of processes and vice versa.
+Strong Scaling (Comp):
+![Strong Comp 2^16](images/merge/strong_65536_comp.png)
+![Strong Comp 2^18](images/merge/strong_262144_comp.png)
+![Strong Comp 2^20](images/merge/strong_1048576_comp.png)
+![Strong Comp 2^22](images/merge/strong_4194304_comp.png)
+![Strong Comp 2^24](images/merge/strong_16777216_comp.png)
+![Strong Comp 2^26](images/merge/strong_67108864_comp.png)
+![Strong Comp 2^28](images/merge/strong_268435456_comp.png)
 
-![Main Merge 2^16](images/bitonic/merge/merge_strong_scaling_65536.png)
-![Main Merge 2^18](images/bitonic/merge/merge_strong_scaling_262144.png)
-![Main Merge 2^20](images/bitonic/merge/merge_strong_scaling_1048576.png)
-![Comm Merge 2^16](images/bitonic/merge/merge_strong_scaling_comm_262144.png)
-![Comm Merge 2^18](images/bitonic/merge/merge_strong_scaling_comm_655356.png)
-![Comm Merge 2^20](images/bitonic/merge/merge_strong_scaling_comm_1048576.png)
-![Comp Merge 2^16](images/bitonic/merge/merge_strong_scaling_comp_65536.png)
-![Comp Merge 2^18](images/bitonic/merge/merge_strong_scaling_comp_262144.png)
-![Comp Merge 2^20](images/bitonic/merge/merge_strong_scaling_comp_1048576.png)
+Strong Scaling (Comm):
+![Strong Comm 2^16](images/merge/strong_65536_comm.png)
+![Strong Comm 2^18](images/merge/strong_262144_comm.png)
+![Strong Comm 2^20](images/merge/strong_1048576_comm.png)
+![Strong Comm 2^22](images/merge/strong_4194304_comm.png)
+![Strong Comm 2^24](images/merge/strong_16777216_comm.png)
+![Strong Comm 2^26](images/merge/strong_67108864_comm.png)
+![Strong Comm 2^28](images/merge/strong_268435456_comm.png)
+
+Strong Scaling (Main):
+![Strong Main 2^16](images/merge/strong_65536_main.png)
+![Strong Main 2^18](images/merge/strong_262144_main.png)
+![Strong Main 2^20](images/merge/strong_1048576_main.png)
+![Strong Main 2^22](images/merge/strong_4194304_main.png)
+![Strong Main 2^24](images/merge/strong_16777216_main.png)
+![Strong Main 2^26](images/merge/strong_67108864_main.png)
+![Strong Main 2^28](images/merge/strong_268435456_main.png)
+
+Speedup:
+![Random Speedup](images/merge/random_speedup.png)
+![Sorted Speedup](images/merge/sorted_speedup.png)
+![Speedup 2^16](images/merge/strong_65536_speedup.png)
+![Speedup 2^18](images/merge/strong_262144_speedup.png)
+![Speedup 2^20](images/merge/strong_1048576_speedup.png)
+![Speedup 2^22](images/merge/strong_4194304_speedup.png)
+![Speedup 2^24](images/merge/strong_16777216_speedup.png)
+![Speedup 2^26](images/merge/strong_67108864_speedup.png)
+![Speedup 2^28](images/merge/strong_268435456_speedup.png)
+
+Weak Scaling:
+![Weak Various](images/merge/weak_scaling_various.png)
 
 # Sample Sort
 
