@@ -190,7 +190,7 @@ QuickSort(arr): //sequential quicksort
 Radix Sort: 
 
 
-		
+        
 1. Initialize MPI 
 - Get the total number of processes with MPI_Comm_size() (num_procs) 
 - Get the rank of current process with MPI_Comm_rank() (rank)
@@ -308,33 +308,34 @@ Radix Sort:
 └─ 0.001 MPI_Comm_dup
 
 # MPI Samplesort Tree (2^16, 4 Processors)
-0.392 main
-├─ 0.391 main
-│  ├─ 0.365 MPI_Init
-│  │  └─ 0.000 MPI_Init
-│  ├─ 0.001 data_init_runtime
-│  ├─ 0.010 comp
-│  │  ├─ 0.010 comp_large
-│  │  └─ 0.000 comp_small
-│  ├─ 0.009 comm
-│  │  ├─ 0.004 comm_small
-│  │  │  ├─ 0.000 MPI_Gather
-│  │  │  │  └─ 0.000 MPI_Gather
-│  │  │  └─ 0.003 MPI_Bcast
-│  │  │     └─ 0.003 MPI_Bcast
-│  │  └─ 0.006 comm_large
-│  │     ├─ 0.005 MPI_Alltoall
-│  │     │  └─ 0.005 MPI_Alltoall
-│  │     └─ 0.000 MPI_Alltoallv
-│  │        └─ 0.000 MPI_Alltoallv
-│  └─ 0.001 correctness_check
-│     ├─ 0.000 MPI_Send
-│     ├─ 0.000 MPI_Recv
-│     └─ 0.000 MPI_Allreduce
+0.421 main
+├─ 0.001 MPI_Comm_dup
+├─ 0.000 MPI_Comm_rank
+├─ 0.000 MPI_Comm_size
 ├─ 0.000 MPI_Finalize
-├─ 0.000 MPI_Initialized
 ├─ 0.000 MPI_Finalized
-└─ 0.001 MPI_Comm_dup
+├─ 0.389 MPI_Init
+│  └─ 0.000 MPI_Init
+├─ 0.000 MPI_Initialized
+├─ 0.012 comm
+│  ├─ 0.004 comm_large
+│  │  ├─ 0.001 MPI_Alltoall
+│  │  │  └─ 0.001 MPI_Alltoall
+│  │  └─ 0.004 MPI_Alltoallv
+│  │     └─ 0.004 MPI_Alltoallv
+│  └─ 0.008 comm_small
+│     ├─ 0.003 MPI_Bcast
+│     │  └─ 0.003 MPI_Bcast
+│     └─ 0.004 MPI_Gather
+│        └─ 0.004 MPI_Gather
+├─ 0.010 comp
+│  ├─ 0.010 comp_large
+│  └─ 0.000 comp_small
+├─ 0.003 correctness_check
+│  ├─ 0.001 MPI_Allreduce
+│  ├─ 0.001 MPI_Recv
+│  └─ 0.000 MPI_Send
+└─ 0.001 data_init_runtime
 
 # MPI Radixsort Tree (2^10, 4)
 0.386 main
@@ -410,6 +411,14 @@ node	profile
 {'name': 'comp', 'type': 'function'}	678431665	4.0	regionprofile	0.000019	0.007306	0.004833	0.019333	0.000008	0.000019	0.000021	0.000020	0.000080	1.0	1.0	1.0	4.0	comp	binary_radix_sort	mpi	int	4	1024	0	4	strong	22	online/ai/handwritten
 678431665	16.0	regionprofile	0.005921	0.007286	0.006418	0.019253	0.000000	0.000915	0.000959	0.000943	0.002828	1.0	1.0	1.0	3.0	comp	binary_radix_sort	mpi	int	4	1024	0	4	strong	22	online/ai/handwritten
 
+# Samplesort
+        nid	spot.channel	Min time/rank	Max time/rank	Avg time/rank	Total time	Variance time/rank	Min time/rank (exc)	Max time/rank (exc)	Avg time/rank (exc)	Total time (exc)	Calls/rank (min)	Calls/rank (avg)	Calls/rank (max)	Calls/rank (total)	name	input_type	num_procs	input_size
+node	profile																			
+{'name': 'main', 'type': 'function'}	25268110	1.0	regionprofile	0.421131	0.421189	0.421153	1.684613	0.000000	0.005771	0.006329	0.006039	0.024156	NaN	NaN	NaN	NaN	main	random	4	65536
+54571212	1.0	regionprofile	1.990979	2.050741	2.036710	1042.795482	0.000055	0.005975	0.008107	0.006246	3.197957	NaN	NaN	NaN	NaN	main	random	512	262144
+75260857	1.0	regionprofile	0.916840	0.918408	0.917623	7.340984	0.000000	0.011571	0.013058	0.012445	0.099559	NaN	NaN	NaN	NaN	main	one_percent_perturbed	8	4194304
+96382717	1.0	regionprofile	0.795777	0.797730	0.796684	6.373469	0.000000	0.005941	0.006881	0.006292	0.050332	NaN	NaN	NaN	NaN	main	reverse_sorted	8	262144
+134921820	1.0	regionprofile	1.933111	2.030326	1.982961	126.909528	0.001870	0.008893	0.023596	0.011446	0.732548	NaN	NaN	NaN	NaN	main	one_percent_perturbed	64	16777216
 ## 4. Performance evaluation
 
 Include detailed analysis of computation performance, communication performance. 
@@ -449,20 +458,20 @@ More on the graphs, however, all of the lines seem to be similar in terms of Avg
 
 # Sample Sort
 
-I had trouble with the graphs allowing me to display the speedup. Otherwise, everythinng went smoothly outside of the MPI calls taking 4-8 hours pending. The graphs also had some weird artifacts, but the lines were accurate. 
+
 
 Weak Scaling:
-![Main Sample 2^16](images\sample\plot_65536_main.png)
-![Comm Sample 2^16](images\sample\plot_65536_comm.png)
-![Comp Large Sample 2^16](images\sample\plot_65536_comp_large.png)
+![Main Sample 2^16](images/sample/weak_scaling_main_random.png)
+![Comm Sample 2^16](images/sample/weak_scaling_comm_random.png)
+![Comp Large Sample 2^16](images/sample/weak_scaling_comp_random.png)
 
 Strong Scaling:
-![Main Sample 2^20](images\sample\plot_1048576_main.png)
-![Comm Sample 2^20](images\sample\plot_1048576_comm.png)
-![Comp Large Sample 2^20](images\sample\plot_1048576_comp_large.png)
-![Main Sample 2^22](images\sample\plot_4194304_main.png)
-![Comm Sample 2^22](images\sample\plot_4194304_comm.png)
-![Comp Large Sample 2^22](images\sample\plot_4194304_comp_large.png)
+![Main Sample 2^20](images/sample/plot_1048576_main.png)
+![Comm Sample 2^20](images/sample/plot_1048576_comm.png)
+![Comp Large Sample 2^20](images/sample/plot_1048576_comp_large.png)
+![Main Sample 2^22](images/sample/plot_4194304_main.png)
+![Comm Sample 2^22](images/sample/plot_4194304_comm.png)
+![Comp Large Sample 2^22](images/sample/plot_4194304_comp_large.png)
 
 # Radix Sort
 
